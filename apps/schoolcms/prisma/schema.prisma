@@ -17,3 +17,248 @@ model User {
   updatedAt DateTime @updatedAt
   username  String   @unique
 }
+
+model Academicperiod {
+  academicyearsId BigInt    @map("academicyears_id") @db.UnsignedBigInt
+  createdAt       DateTime? @map("created_at") @db.Timestamp(0)
+  dayCount        Int       @map("day_count")
+  description     String?
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  name            String
+  periodEnd       DateTime  @map("period_end") @db.Date
+  periodStart     DateTime  @map("period_start") @db.Date
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(0)
+
+  @@map("academicperiods")
+}
+
+model Academicyear {
+  createdAt   DateTime? @map("created_at") @db.Timestamp(0)
+  description String?
+  id          BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  name        String
+  status      Boolean   @default(false)
+  updatedAt   DateTime? @map("updated_at") @db.Timestamp(0)
+  yearEnd     DateTime  @map("year_end") @db.Date
+  yearStart   DateTime  @map("year_start") @db.Date
+
+  @@map("academicyears")
+}
+
+model Classroom {
+  academicyearsId BigInt    @map("academicyears_id") @db.UnsignedBigInt
+  createdAt       DateTime? @map("created_at") @db.Timestamp(0)
+  enterprisesId   BigInt    @map("enterprises_id") @db.UnsignedBigInt
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  name            String
+  shortName       String    @map("short_name")
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(0)
+
+  @@map("classrooms")
+}
+
+model Enterprise {
+  academicyearsId BigInt    @map("academicyears_id") @db.UnsignedBigInt
+  createdAt       DateTime? @map("created_at") @db.Timestamp(0)
+  description     String?
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  name            String
+  shortName       String    @map("short_name")
+  status          Boolean?  @default(true)
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(0)
+
+  @@map("enterprises")
+}
+
+model FailedJob {
+  connection String   @db.Text
+  exception  String   @db.LongText
+  failedAt   DateTime @default(now()) @map("failed_at") @db.Timestamp(0)
+  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  payload    String   @db.LongText
+  queue      String   @db.Text
+  uuid       String   @unique
+
+  @@map("failed_jobs")
+}
+
+model Migration {
+  batch     Int
+  id        Int    @id @default(autoincrement()) @db.UnsignedInt
+  migration String
+
+  @@map("migrations")
+}
+
+model Parent {
+  academicyearsId   BigInt    @map("academicyears_id") @db.UnsignedBigInt
+  createdAt         DateTime? @map("created_at") @db.Timestamp(0)
+  email             String?
+  emailVerifiedAt   DateTime? @map("email_verified_at") @db.Timestamp(0)
+  id                BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  name              String
+  parentAddress     String?   @map("parent_address")
+  parentHouseNumber String?   @map("parent_house_number")
+  parentProfession  String?   @map("parent_profession")
+  password          String
+  phoneNumber       String?   @map("phone_number")
+  rememberToken     String?   @map("remember_token") @db.VarChar(100)
+  serialCode        String    @unique @map("serial_code")
+  updatedAt         DateTime? @map("updated_at") @db.Timestamp(0)
+  whatsappNumber    String?   @map("whatsapp_number")
+
+  @@map("parents")
+}
+
+model PasswordReset {
+  createdAt DateTime? @map("created_at") @db.Timestamp(0)
+  email     String
+  id        String    @id @default(cuid())
+  token     String
+
+  @@index([email], map: "password_resets_email_index")
+  @@map("password_resets")
+  @@ignore()
+}
+
+model PersonalAccessToken {
+  abilities     String?   @db.Text
+  createdAt     DateTime? @map("created_at") @db.Timestamp(0)
+  expiresAt     DateTime? @map("expires_at") @db.Timestamp(0)
+  id            BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  lastUsedAt    DateTime? @map("last_used_at") @db.Timestamp(0)
+  name          String
+  token         String    @unique @db.VarChar(64)
+  tokenableId   BigInt    @map("tokenable_id") @db.UnsignedBigInt
+  tokenableType String    @map("tokenable_type")
+  updatedAt     DateTime? @map("updated_at") @db.Timestamp(0)
+
+  @@index([tokenableType, tokenableId], map: "personal_access_tokens_tokenable_type_tokenable_id_index")
+  @@map("personal_access_tokens")
+}
+
+model Student {
+  academicyearsId BigInt             @map("academicyears_id") @db.UnsignedBigInt
+  amountToBePaid  Int?               @map("amount_to_be_paid")
+  classroomId     BigInt             @map("classroom_id") @db.UnsignedBigInt
+  createdAt       DateTime?          @map("created_at") @db.Timestamp(0)
+  enterpriseId    BigInt             @map("enterprise_id") @db.UnsignedBigInt
+  fatherName      String             @map("father_name")
+  gender          EnumStudentGender?
+  id              BigInt             @id @default(autoincrement()) @db.UnsignedBigInt
+  motherName      String?            @map("mother_name")
+  motherPhone     String?            @map("mother_phone")
+  name            String
+  parentId        BigInt             @map("parent_id") @db.UnsignedBigInt
+  password        String
+  serialCode      String             @unique @map("serial_code")
+  updatedAt       DateTime?          @map("updated_at") @db.Timestamp(0)
+
+  @@map("students")
+}
+
+model Subject {
+  academicyearsId BigInt    @map("academicyears_id") @db.UnsignedBigInt
+  classroomId     BigInt    @map("classroom_id") @db.UnsignedBigInt
+  createdAt       DateTime? @map("created_at") @db.Timestamp(0)
+  fullDegree      Int?      @map("full_degree")
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  name            String
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(0)
+
+  @@map("subjects")
+}
+
+model Teacher {
+  academicyearsId BigInt    @default(1) @map("academicyears_id") @db.UnsignedBigInt
+  baseSalary      Float?    @map("base_salary")
+  createdAt       DateTime? @map("created_at") @db.Timestamp(0)
+  dateOfBirth     DateTime? @map("date_of_birth") @db.Date
+  dateOfContract  DateTime? @map("date_of_contract") @db.Date
+  email           String?
+  emailVerifiedAt DateTime? @map("email_verified_at") @db.Timestamp(0)
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  living          String?
+  name            String
+  password        String
+  phoneNumber     String?   @map("phone_number")
+  qualification   String?
+  rememberToken   String?   @map("remember_token") @db.VarChar(100)
+  serialCode      String    @unique @map("serial_code")
+  specialization  String?
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(0)
+  whatsappNumber  String?   @map("whatsapp_number")
+
+  @@map("teachers")
+}
+
+model TeachersAttendee {
+  academicyearsId  BigInt                   @map("academicyears_id") @db.UnsignedBigInt
+  createdAt        DateTime?                @map("created_at") @db.Timestamp(0)
+  date             DateTime                 @db.Date
+  id               BigInt                   @id @default(autoincrement()) @db.UnsignedBigInt
+  teacherId        BigInt                   @map("teacher_id") @db.UnsignedBigInt
+  timeOfAttendance DateTime?                @map("time_of_attendance") @db.Time(0)
+  timeOfDeparture  DateTime?                @map("time_of_departure") @db.Time(0)
+  type             EnumTeachersAttendeeType
+  updatedAt        DateTime?                @map("updated_at") @db.Timestamp(0)
+
+  @@map("teachers_attendees")
+}
+
+model TeachersPayment {
+  academicyearsId BigInt                         @map("academicyears_id") @db.UnsignedBigInt
+  createdAt       DateTime?                      @map("created_at") @db.Timestamp(0)
+  description     String?                        @db.Char(191)
+  id              BigInt                         @id @default(autoincrement()) @db.UnsignedBigInt
+  payment         Int
+  paymentDate     DateTime                       @map("payment_date") @db.Date
+  payment_type    EnumTeachersPaymentPaymentType
+  teacherId       BigInt                         @map("teacher_id") @db.UnsignedBigInt
+  updatedAt       DateTime?                      @map("updated_at") @db.Timestamp(0)
+
+  @@map("teachers_payments")
+}
+
+model TuitionFee {
+  academicyearsId BigInt    @map("academicyears_id") @db.UnsignedBigInt
+  createdAt       DateTime? @map("created_at") @db.Timestamp(0)
+  description     String?
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  payment         Int
+  paymentDate     DateTime  @map("payment_date") @db.Date
+  studentId       BigInt    @map("student_id") @db.UnsignedBigInt
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(0)
+
+  @@map("tuition_fees")
+}
+
+model UserModel {
+  createdAt       DateTime? @map("created_at") @db.Timestamp(0)
+  email           String?
+  emailVerifiedAt DateTime? @map("email_verified_at") @db.Timestamp(0)
+  id              BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  name            String
+  password        String
+  rememberToken   String?   @map("remember_token") @db.VarChar(100)
+  serialCode      String    @unique @map("serial_code")
+  updatedAt       DateTime? @map("updated_at") @db.Timestamp(0)
+
+  @@map("users")
+}
+
+enum EnumStudentGender {
+  male
+  female
+}
+
+enum EnumTeachersAttendeeType {
+  presence
+  absence
+}
+
+enum EnumTeachersPaymentPaymentType {
+  first_payment
+  second_payment
+  third_payment
+}

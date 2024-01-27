@@ -1,5 +1,21 @@
 import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
+import { AcademicperiodModule } from "./academicperiod/academicperiod.module";
+import { AcademicyearModule } from "./academicyear/academicyear.module";
+import { ClassroomModule } from "./classroom/classroom.module";
+import { EnterpriseModule } from "./enterprise/enterprise.module";
+import { FailedJobModule } from "./failedJob/failedJob.module";
+import { MigrationModule } from "./migration/migration.module";
+import { ParentModule } from "./parent/parent.module";
+import { PasswordResetModule } from "./passwordReset/passwordReset.module";
+import { PersonalAccessTokenModule } from "./personalAccessToken/personalAccessToken.module";
+import { StudentModule } from "./student/student.module";
+import { SubjectModule } from "./subject/subject.module";
+import { TeacherModule } from "./teacher/teacher.module";
+import { TeachersAttendeeModule } from "./teachersAttendee/teachersAttendee.module";
+import { TeachersPaymentModule } from "./teachersPayment/teachersPayment.module";
+import { TuitionFeeModule } from "./tuitionFee/tuitionFee.module";
+import { UserModelModule } from "./userModel/userModel.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -18,6 +34,22 @@ import { AuthModule } from "./auth/auth.module";
     ACLModule,
     AuthModule,
     UserModule,
+    AcademicperiodModule,
+    AcademicyearModule,
+    ClassroomModule,
+    EnterpriseModule,
+    FailedJobModule,
+    MigrationModule,
+    ParentModule,
+    PasswordResetModule,
+    PersonalAccessTokenModule,
+    StudentModule,
+    SubjectModule,
+    TeacherModule,
+    TeachersAttendeeModule,
+    TeachersPaymentModule,
+    TuitionFeeModule,
+    UserModelModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
